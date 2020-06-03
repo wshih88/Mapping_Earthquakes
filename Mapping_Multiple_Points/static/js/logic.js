@@ -2,7 +2,7 @@
 console.log("working");
 
 // Create the map object with center at the San Francisco airport.
-let map = L.map('mapid').setView([37.6213, -122.3790], 5);
+let map = L.map('mapid').setView([37.5, -122.5], 10);
 
 // Coordinates for each point to be used in the line.
 let line = [
@@ -37,7 +37,7 @@ cityData.forEach(function(city) {
 
 // We create the tile layer that will be the background of our map.
 // Skill drill id: mapbox.streets -> mapbox.dark
-let streets = L.tileLayer(' https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+let streets = L.tileLayer(' https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
 	id: 'mapbox.streets',
@@ -46,3 +46,60 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 // Then we add our 'graymap' tile layer to the map.
 streets.addTo(map);
 
+// let streets = L.tileLayer(' https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+// attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+// 	maxZoom: 18,
+// 	id: 'mapbox.streets',
+// 	accessToken: API_KEY
+// });
+// // Then we add our 'graymap' tile layer to the map.
+// streets.addTo(map);
+
+// let baseMaps = {
+// 	street: streets,
+// 	dark: dark,
+// 	Satelite: satelite
+// },
+
+//L.control.layers(baseMaps).addTo(map);
+
+
+// Add GeoJSON data.
+let sanFranAirport =
+{"type":"FeatureCollection","features":[{
+    "type":"Feature",
+    "properties":{
+        "id":"3469",
+        "name":"San Francisco International Airport",
+        "city":"San Francisco",
+        "country":"United States",
+        "faa":"SFO",
+        "icao":"KSFO",
+        "alt":"13",
+        "tz-offset":"-8",
+        "dst":"A",
+        "tz":"America/Los_Angeles"},
+        "geometry":{
+            "type":"Point",
+            "coordinates":[-122.375,37.61899948120117]}}
+]};
+
+// Grabbing our GeoJSON data.
+// L.geoJson(sanFranAirport, {
+//     // We turn each feature into a marker on the map.
+//     pointToLayer: function(feature, latlng) {
+//       console.log(feature);
+// 	  return L.marker(latlng)
+// 	  .bindPopup("<h2>" + feature.properties.city + "</h2>");
+//     }
+
+//   }).addTo(map);
+
+// GeoJSON data with popup feature
+  L.geoJson(sanFranAirport, {
+    // We turn each feature into a marker on the map.
+    onEachFeature: function(feature, layer) {
+      console.log(layer);
+	  layer.bindPopup();
+    }
+  }).addTo(map);
