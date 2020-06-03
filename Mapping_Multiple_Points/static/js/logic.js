@@ -3,8 +3,6 @@ console.log("working");
 
 // Create the map object with center and zoom level.
 let map = L.map('mapid').setView([30, 30], 2);
-
-
 // We create the tile layer that will be the background of our map.
 // Skill drill id: mapbox.streets -> mapbox.dark
 let streets = L.tileLayer(' https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -22,9 +20,34 @@ let airportData = "https://raw.githubusercontent.com/wshih88/Mapping_Earthquakes
 // Grabbing our GeoJSON data.
 d3.json(airportData).then(function(data) {
   console.log(data);
+  
 // Creating a GeoJSON layer with the retrieved data.
-L.geoJson(data).addTo(map);
+L.geoJson(data, {
+    //We turn each feature into a marker on the map.
+    pointToLayer: function(feature, latlng) {
+      console.log(feature);
+	  return L.marker(latlng)
+	  .bindPopup("<h2>" + feature.properties.city + "</h2>" + "<hr>" + "</hr>" + "<h3>" +feature.properties.name + "</h3>");
+    }
+
+  }).addTo(map)
 });
+
+//Skill Drill
+// Creating a GeoJSON layer with the retrieved data.
+// L.geoJson(data, {
+//   //We turn each feature into a marker on the map.
+//   pointToLayer: function(feature, latlng) {
+//     console.log(feature);
+//   return L.marker(latlng)
+//   .bindPopup("<h2>"+ (Airport Code) feature.properties.faa + "</h2>" + "<hr>" + "</hr>" + "<h3>" + Airport Name: feature.properties.name + "</h3>");
+//   }
+
+// }).addTo(map)
+// });
+
+
+
 
 
 // let streets = L.tileLayer(' https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
