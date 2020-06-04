@@ -140,7 +140,7 @@ legend.addTo(map);
 	}
 });
 
-let tectonicPlates = "https://raw.githubusercontent.com/wshih88/Mapping_Earthquakes/master/PB2002_boundaries.json" 
+let tectonicPlates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json" 
 
 d3.json(tectonicPlates).then(function(data) {
 	console.log(data)
@@ -158,6 +158,6 @@ d3.json(tectonicPlates).then(function(data) {
 });
 
 let plateStyle = {
-	color: "#ffffa1",
-	weight: 10
+	color: "#ff0000",
+	weight: 4
 }
