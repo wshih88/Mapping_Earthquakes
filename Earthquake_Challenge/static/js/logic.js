@@ -36,11 +36,13 @@ let map = L.map('mapid', {
 
 // Create the earthquake layer for our map.
 let earthquakes = new L.layerGroup();
+let plates = new L.layerGroup();
 
 // We define an object that contains the overlays.
 // This overlay will be visible all the time.
 let overlays = {
-	Earthquakes: earthquakes
+	"Earthquakes": earthquakes,
+	"Tectonic Plates": plates
   };
 
 // Then we add a control to the map that will allow the user to change
@@ -55,7 +57,6 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 	// We turn each feature into a circleMarker on the map.
 	
 	pointToLayer: function(feature, latlng) {
-				  console.log(data);
 				  return L.circleMarker(latlng);
 			},
 		  style: styleInfo,
@@ -138,3 +139,25 @@ legend.addTo(map);
 		return magnitude * 4;
 	}
 });
+
+let tectonicPlates = "https://raw.githubusercontent.com/wshih88/Mapping_Earthquakes/master/PB2002_boundaries.json" 
+
+d3.json(tectonicPlates).then(function(data) {
+	console.log(data)
+	// Creating a GeoJSON layer with the retrieved data.
+	L.geoJson(data, {
+		// We turn each feature into a marker on the map.
+		style: plateStyle,
+		pointToLayer: function(feature, coordinates) {
+		  console.log(feature)},
+		  style: plateStyle,
+		  onEachFeature: function(feature, layer) {}
+	}).addTo(plates);
+
+	plates.addTo(map)
+});
+
+let plateStyle = {
+	color: "#ffffa1",
+	weight: 10
+}
